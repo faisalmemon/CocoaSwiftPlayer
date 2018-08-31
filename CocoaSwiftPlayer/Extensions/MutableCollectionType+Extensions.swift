@@ -11,15 +11,14 @@ import Foundation
 extension MutableCollection where Index == Int {
     
     mutating func shuffleInPlace() {
-//        if count < 2 { return }
-//        
-//        let p: IndexDistance?
-//        
-//        for i in 0..<count.advanced(by: -1) {
-//            let j = Int(arc4random_uniform(UInt32(count - i))) + 1
-//            guard i != j else { continue }
-//            swap(&self[i], &self[j])
-//        }
+        
+        // Algorithm is from https://stackoverflow.com/a/37843901/2715565
+        
+        for i in indices.dropLast() {
+            let diff = distance(from: i, to: endIndex)
+            let j = index(i, offsetBy: numericCast(arc4random_uniform(numericCast(diff))))
+            swapAt(i, j)
+        }
     }
     
 }

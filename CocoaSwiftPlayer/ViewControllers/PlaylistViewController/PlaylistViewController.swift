@@ -109,8 +109,8 @@ extension PlaylistViewController: NSOutlineViewDataSource {
         
         let realm = try! Realm()
         if let location = location {
-            if let song = realm.objects(Song).filter("location = '\(location)'").first {
-                let index = playlist.songs.indexOf { s in
+            if let song = realm.objects(Song.self).filter("location = '\(location)'").first {
+                let index = playlist.songs.index { s in
                     return s.location == song.location
                 }
                 if index == nil {

@@ -20,11 +20,11 @@ class SongListViewController: NSViewController {
         // Do view setup here.
         print("SongListViewController viewDidLoad")
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if !defaults.boolForKey("APP_LAUNCHED") {
+        let defaults = UserDefaults.standard
+        if !defaults.bool(forKey: "APP_LAUNCHED") {
             let songManager = SongManager()
             try! songManager.importSongs()
-            defaults.setBool(true, forKey: "APP_LAUNCHED")
+            defaults.set(true, forKey: "APP_LAUNCHED")
         }
         
         let realm = try! Realm()
@@ -33,20 +33,20 @@ class SongListViewController: NSViewController {
             return song
         }
         
-        tableView.doubleAction = "doubleClick:"
+        tableView.doubleAction = #selector(SongListViewController.doubleClick(_:))
         
-        tableView.setDataSource(self)
+        tableView.dataSource = self
         
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Delete", action: "deleteSongs:", keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Delete", action: #selector(SongListViewController.deleteSongs(_:)), keyEquivalent: ""))
         tableView.menu = menu
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "changeSong:", name: Constants.Notifications.ChangeSong, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SongListViewController.changeSong(_:)), name: NSNotification.Name(rawValue: Constants.Notifications.ChangeSong), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "switchPlaylist:", name: Constants.Notifications.SwitchPlaylist, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SongListViewController.switchPlaylist(_:)), name: NSNotification.Name(rawValue: Constants.Notifications.SwitchPlaylist), object: nil)
     }
     
-    func doubleClick(sender: NSTableView) {
+    func doubleClick(_ sender: NSTableView) {
         let manager = PlayerManager.sharedManager
         if tableView.selectedRow != -1 {
             manager.currentPlayList = songs
@@ -55,10 +55,10 @@ class SongListViewController: NSViewController {
         manager.play()
     }
     
-    func deleteSongs(sender: AnyObject) {
+    func deleteSongs(_ sender: AnyObject) {
         let songsMutableArray = NSMutableArray(array: songs)
-        let toBeDeletedSongs = songsMutableArray.objectsAtIndexes(tableView.selectedRowIndexes) as? [Song]
-        songsMutableArray.removeObjectsAtIndexes(tableView.selectedRowIndexes)
+        let toBeDeletedSongs = songsMutableArray.objects(at: tableView.selectedRowIndexes) as? [Song]
+        songsMutableArray.removeObjects(at: tableView.selectedRowIndexes)
         
         if let mutableArray = songsMutableArray as AnyObject as? [Song] {
             songs = mutableArray
@@ -74,20 +74,20 @@ class SongListViewController: NSViewController {
     
     // MARK: - Notification
     
-    func changeSong(notification: NSNotification) {
+    func changeSong(_ notification: Notification) {
         guard let song = notification.userInfo?[Constants.NotificationUserInfos.Song] as? Song else { return }
         
-        let index = songs.indexOf { s in
+        let index = songs.index { s in
             return s.location == song.location
         }
         
         if let index = index {
-            tableView.selectRowIndexes(NSIndexSet(index: index), byExtendingSelection: false)
+            tableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
             tableView.scrollRowToVisible(index)
         }
     }
     
-    func switchPlaylist(notification: NSNotification) {
+    func switchPlaylist(_ notification: Notification) {
         guard let playlist = notification.userInfo?[Constants.NotificationUserInfos.Playlist] as? Playlist else { return }
         
         songs = playlist.songs.map { song in return song }
@@ -98,7 +98,7 @@ class SongListViewController: NSViewController {
 
 extension SongListViewController: NSTableViewDataSource {
     
-    func tableView(tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
         let song = songs[row]
         
         let pbItem = NSPasteboardItem()

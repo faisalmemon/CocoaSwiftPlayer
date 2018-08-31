@@ -8,9 +8,9 @@
 
 import Foundation
 
-extension CollectionType {
+extension Collection {
     
-    func shuffle() -> [Generator.Element] {
+    func shuffle() -> [Iterator.Element] {
         var list = Array(self)
         list.shuffleInPlace()
         return list

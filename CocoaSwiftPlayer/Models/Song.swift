@@ -12,7 +12,7 @@ import RealmSwift
 
 class Song: Object {
     
-    static let formatter = NSDateComponentsFormatter()
+    static let formatter = DateComponentsFormatter()
 
     dynamic var title: String = ""
     dynamic var location: String = ""
@@ -23,18 +23,18 @@ class Song: Object {
     
     dynamic var lengthText: String {
         get {
-            return Song.formatter.stringFromTimeInterval(length)!
+            return Song.formatter.string(from: length)!
         }
     }
     
     convenience init(item: ITLibMediaItem) {
         self.init()
         self.title = item.title
-        if item.artist.name != nil {
-            self.artist = item.artist.name
+        if item.artist?.name != nil {
+            self.artist = (item.artist?.name!)!
         }
-        self.location = item.location.path ?? ""
-        self.length = NSTimeInterval(item.totalTime) / 1000.0
+        self.location = item.location?.path ?? ""
+        self.length = TimeInterval(item.totalTime) / 1000.0
     }
     
     override static func ignoredProperties() -> [String] {

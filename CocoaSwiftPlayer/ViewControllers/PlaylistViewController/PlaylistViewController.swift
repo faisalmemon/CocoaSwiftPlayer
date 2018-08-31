@@ -25,20 +25,20 @@ class PlaylistViewController: NSViewController {
         // Do view setup here.
         print("PlaylistViewController viewDidLoad")
         
-        outlineView.setDataSource(self)
-        outlineView.setDelegate(self)
+        outlineView.dataSource = self
+        outlineView.delegate = self
         
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Delete", action: "deletePlaylist:", keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Delete", action: #selector(PlaylistViewController.deletePlaylist(_:)), keyEquivalent: ""))
         outlineView.menu = menu
         
         let realm = try! Realm()
         playlists = realm.objects(Playlist).map { playlist in return playlist }
         
-        outlineView.registerForDraggedTypes([NSPasteboardTypeString])
+        outlineView.register(forDraggedTypes: [NSPasteboardTypeString])
     }
     
-    @IBAction func addPlaylist(sender: AnyObject) {
+    @IBAction func addPlaylist(_ sender: AnyObject) {
         let playlist = Playlist()
         let realm = try! Realm()
         try! realm.write {
@@ -48,9 +48,9 @@ class PlaylistViewController: NSViewController {
         playlists.append(playlist)
     }
     
-    func deletePlaylist(sender: AnyObject) {
+    func deletePlaylist(_ sender: AnyObject) {
         let playlist = playlists[outlineView.clickedRow - 1]
-        playlists.removeAtIndex(outlineView.clickedRow - 1)
+        playlists.remove(at: outlineView.clickedRow - 1)
         outlineView.reloadData()
         
         playlist.delete()
@@ -58,7 +58,7 @@ class PlaylistViewController: NSViewController {
     
     // MARK: - Helper
     
-    func isHeader(item: AnyObject) -> Bool {
+    func isHeader(_ item: AnyObject) -> Bool {
         return item is String
     }
     
@@ -66,7 +66,7 @@ class PlaylistViewController: NSViewController {
 
 extension PlaylistViewController: NSOutlineViewDataSource {
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
             return 1
         } else {
@@ -74,11 +74,11 @@ extension PlaylistViewController: NSOutlineViewDataSource {
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        return isHeader(item)
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+        return isHeader(item as AnyObject)
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if item == nil {
             return "Library"
         } else {
@@ -86,26 +86,26 @@ extension PlaylistViewController: NSOutlineViewDataSource {
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject? {
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         return item
     }
     
-    func outlineView(outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: AnyObject?, proposedChildIndex index: Int) -> NSDragOperation {
+    func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
         
         let canDrag = item is Playlist && index < 0
         
         if canDrag {
-            return .Move
+            return .move
         } else {
-            return .None
+            return NSDragOperation()
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: AnyObject?, childIndex index: Int) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         guard let playlist = item as? Playlist else { return false }
         
         let pb = info.draggingPasteboard()
-        let location = pb.stringForType(NSPasteboardTypeString)
+        let location = pb.string(forType: NSPasteboardTypeString)
         
         let realm = try! Realm()
         if let location = location {
@@ -126,11 +126,11 @@ extension PlaylistViewController: NSOutlineViewDataSource {
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
-        if isHeader(item) {
-            return outlineView.makeViewWithIdentifier("HeaderCell", owner: self)
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
+        if isHeader(item as AnyObject) {
+            return outlineView.make(withIdentifier: "HeaderCell", owner: self)
         } else {
-            let view = outlineView.makeViewWithIdentifier("DataCell", owner: self) as? CustomTableCellView
+            let view = outlineView.make(withIdentifier: "DataCell", owner: self) as? CustomTableCellView
             if let playlist = item as? Playlist {
                 view?.textField?.stringValue = "\(playlist.name)"
                 view?.textField?.delegate = self
@@ -144,28 +144,28 @@ extension PlaylistViewController: NSOutlineViewDataSource {
 
 extension PlaylistViewController: NSOutlineViewDelegate {
     
-    func outlineView(outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
-        return !isHeader(item)
+    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
+        return !isHeader(item as AnyObject)
     }
     
-    func outlineView(outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldShowOutlineCellForItem item: Any) -> Bool {
         return false
     }
     
-    func outlineViewSelectionDidChange(notification: NSNotification) {
+    func outlineViewSelectionDidChange(_ notification: Notification) {
         let playlist = playlists[outlineView.selectedRow - 1]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Constants.Notifications.SwitchPlaylist, object: self, userInfo: [Constants.NotificationUserInfos.Playlist: playlist])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.Notifications.SwitchPlaylist), object: self, userInfo: [Constants.NotificationUserInfos.Playlist: playlist])
     }
     
 }
 
 extension PlaylistViewController: NSTextFieldDelegate {
     
-    override func controlTextDidEndEditing(obj: NSNotification) {
+    override func controlTextDidEndEditing(_ obj: Notification) {
         if let textField = obj.object as? NSTextField {
             print(textField.stringValue)
-            let row = outlineView.rowForView(textField)
+            let row = outlineView.row(for: textField)
             let playlist = playlists[row - 1]
             
             let realm = try! Realm()

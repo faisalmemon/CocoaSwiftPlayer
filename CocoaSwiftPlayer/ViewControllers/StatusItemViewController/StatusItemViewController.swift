@@ -15,7 +15,7 @@ class StatusItemViewController: PlayerViewController {
     // ========================
     
     class func loadFromNib() -> StatusItemViewController {
-        let vc = NSStoryboard(name: "Main", bundle: nil).instantiateControllerWithIdentifier("StatusItemViewController") as! StatusItemViewController
+        let vc = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "StatusItemViewController") as! StatusItemViewController
         return vc
     }
 

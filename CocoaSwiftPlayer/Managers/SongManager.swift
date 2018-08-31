@@ -17,12 +17,12 @@ final class SongManager {
         do {
             let realm = try Realm()
             
-            let library = try ITLibrary(APIVersion: "1.0")
-            let allItems = library.allMediaItems as! [ITLibMediaItem]
+            let library = try ITLibrary(apiVersion: "1.0")
+            let allItems = library.allMediaItems 
             let songs = allItems.filter({ item -> Bool in
-                return item.mediaKind == UInt(ITLibMediaItemMediaKindSong)
+                return item.mediaKind.rawValue == ITLibMediaItemMediaKind.kindSong.rawValue
                     && item.location != nil
-                    && item.locationType == UInt(ITLibMediaItemLocationTypeFile)
+                    && item.locationType == ITLibMediaItemLocationType.file
             }).map { item -> Song in
                 return Song(item: item)
             }

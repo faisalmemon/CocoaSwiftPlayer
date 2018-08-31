@@ -14,10 +14,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var windowController: MainWindowController?
 
     let popover = NSPopover()
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     var eventMonitor: EventMonitor?
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
         print("AppDelegate")
@@ -27,26 +27,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         PlayerManager.sharedManager.statusItem = statusItem
         
         if let button = statusItem.button {
-            button.imagePosition = .ImageLeft
+            button.imagePosition = .imageLeft
             button.image = NSImage(named: "Star")
-            button.action = Selector("togglePopover:")
+            button.action = #selector(AppDelegate.togglePopover(_:))
         }
         
         popover.contentViewController = StatusItemViewController.loadFromNib()
         
-        eventMonitor = EventMonitor(mask: [.LeftMouseDownMask, .RightMouseDownMask], handler: { (event) -> () in
-            if self.popover.shown {
+        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown], handler: { (event) -> () in
+            if self.popover.isShown {
                 self.closePopover(event)
             }
         })
         
         // Load Window Controller
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        windowController = storyboard.instantiateControllerWithIdentifier("MainWindowController") as? MainWindowController
+        windowController = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController
         windowController?.showWindow(self)
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
+    func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 
@@ -54,20 +54,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Helpers
     // ===============
     
-    func showPopover(sender: AnyObject?) {
+    func showPopover(_ sender: AnyObject?) {
         if let button = statusItem.button {
-            popover.showRelativeToRect(button.bounds, ofView: button, preferredEdge: .MinY)
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
         eventMonitor?.start()
     }
     
-    func closePopover(sender: AnyObject?) {
+    func closePopover(_ sender: AnyObject?) {
         popover.performClose(sender)
         eventMonitor?.stop()
     }
     
-    func togglePopover(sender: AnyObject?) {
-        if popover.shown {
+    func togglePopover(_ sender: AnyObject?) {
+        if popover.isShown {
             closePopover(sender)
         } else {
             showPopover(sender)

@@ -28,49 +28,49 @@ class PlayerViewController: NSViewController {
     
     let manager = PlayerManager.sharedManager
     
-    var songTimer: NSTimer?
+    var songTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "changeSong:", name: Constants.Notifications.ChangeSong, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PlayerViewController.changeSong(_:)), name: NSNotification.Name(rawValue: Constants.Notifications.ChangeSong), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "volumeChanged:", name: Constants.Notifications.VolumeChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PlayerViewController.volumeChanged(_:)), name: NSNotification.Name(rawValue: Constants.Notifications.VolumeChanged), object: nil)
         
-        songTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateProgress", userInfo: nil, repeats: true)
+        songTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(PlayerViewController.updateProgress), userInfo: nil, repeats: true)
     }
     
     // MARK: - IBAction
     
-    @IBAction func play(sender: NSButton) {
+    @IBAction func play(_ sender: NSButton) {
         manager.play()
     }
     
-    @IBAction func rewind(sender: NSButton) {
+    @IBAction func rewind(_ sender: NSButton) {
         manager.rewind()
     }
     
-    @IBAction func slideVolume(sender: NSSlider) {
+    @IBAction func slideVolume(_ sender: NSSlider) {
         manager.volume = sender.floatValue
     }
     
-    @IBAction func next(sender: NSButton) {
+    @IBAction func next(_ sender: NSButton) {
         manager.next()
     }
     
-    @IBAction func shuffle(sender: NSButton) {
+    @IBAction func shuffle(_ sender: NSButton) {
         manager.isShuffle = !manager.isShuffle
     }
     
-    @IBAction func repeatPlaylist(sender: NSButton) {
+    @IBAction func repeatPlaylist(_ sender: NSButton) {
         manager.isRepeated = !manager.isRepeated
         
     }
     
     // MARK: - Helpers
     
-    func changeSong(notification: NSNotification) {
+    func changeSong(_ notification: Notification) {
         guard let song = notification.userInfo?[Constants.NotificationUserInfos.Song] as? Song else { return }
         
         timeLabel.stringValue = "0:00"
@@ -78,7 +78,7 @@ class PlayerViewController: NSViewController {
         songTitleLabel.stringValue = song.title
     }
     
-    func volumeChanged(notification: NSNotification) {
+    func volumeChanged(_ notification: Notification) {
         volumeSlider.floatValue = manager.volume
     }
 

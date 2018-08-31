@@ -16,7 +16,7 @@ class CustomTableHeaderView: NSTableHeaderView {
 
     override func awakeFromNib() {
         wantsLayer = true
-        layer?.backgroundColor = NSColor.blackColor().CGColor
+        layer?.backgroundColor = NSColor.black.cgColor
     }
     
 }

@@ -10,10 +10,10 @@ import Cocoa
 
 final public class EventMonitor {
     fileprivate var monitor: AnyObject?
-    fileprivate let mask: NSEventMask
+    fileprivate let mask: NSEvent.EventTypeMask
     fileprivate let handler: (NSEvent?) -> ()
     
-    public init(mask: NSEventMask, handler: @escaping (NSEvent?) -> ()) {
+    public init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent?) -> ()) {
         self.mask = mask
         self.handler = handler
     }

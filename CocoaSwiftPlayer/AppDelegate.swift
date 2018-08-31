@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var windowController: MainWindowController?
 
     let popover = NSPopover()
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var eventMonitor: EventMonitor?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -28,21 +28,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if let button = statusItem.button {
             button.imagePosition = .imageLeft
-            button.image = NSImage(named: "Star")
+            button.image = NSImage(named: NSImage.Name(rawValue: "Star"))
             button.action = #selector(AppDelegate.togglePopover(_:))
         }
         
         popover.contentViewController = StatusItemViewController.loadFromNib()
         
-        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown], handler: { (event) -> () in
+        eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown], handler: { (event) -> () in
             if self.popover.isShown {
                 self.closePopover(event)
             }
         })
         
         // Load Window Controller
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        windowController = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController
+        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+        windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MainWindowController")) as? MainWindowController
         windowController?.showWindow(self)
     }
 
@@ -66,7 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         eventMonitor?.stop()
     }
     
-    func togglePopover(_ sender: AnyObject?) {
+    @objc func togglePopover(_ sender: AnyObject?) {
         if popover.isShown {
             closePopover(sender)
         } else {

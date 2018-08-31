@@ -70,7 +70,7 @@ class PlayerViewController: NSViewController {
     
     // MARK: - Helpers
     
-    func changeSong(_ notification: Notification) {
+    @objc func changeSong(_ notification: Notification) {
         guard let song = notification.userInfo?[Constants.NotificationUserInfos.Song] as? Song else { return }
         
         timeLabel.stringValue = "0:00"
@@ -78,11 +78,11 @@ class PlayerViewController: NSViewController {
         songTitleLabel.stringValue = song.title
     }
     
-    func volumeChanged(_ notification: Notification) {
+    @objc func volumeChanged(_ notification: Notification) {
         volumeSlider.floatValue = manager.volume
     }
 
-    func updateProgress() {
+    @objc func updateProgress() {
         timeLabel.stringValue = manager.songProgressText
     }
     

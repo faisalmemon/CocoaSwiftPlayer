@@ -11,7 +11,7 @@ import RealmSwift
 
 class Playlist: Object {
     
-    dynamic var name: String = "Playlist"
+    @objc dynamic var name: String = "Playlist"
     let songs = List<Song>()
     
     func delete() {

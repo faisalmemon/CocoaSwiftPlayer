@@ -14,14 +14,14 @@ class Song: Object {
     
     static let formatter = DateComponentsFormatter()
 
-    dynamic var title: String = ""
-    dynamic var location: String = ""
-    dynamic var album: String = ""
-    dynamic var length: Double = 0.0
-    dynamic var artist: String = ""
-    dynamic var playCount: Int = 0
+    @objc dynamic var title: String = ""
+    @objc dynamic var location: String = ""
+    @objc dynamic var album: String = ""
+    @objc dynamic var length: Double = 0.0
+    @objc dynamic var artist: String = ""
+    @objc dynamic var playCount: Int = 0
     
-    dynamic var lengthText: String {
+    @objc dynamic var lengthText: String {
         get {
             return Song.formatter.string(from: length)!
         }

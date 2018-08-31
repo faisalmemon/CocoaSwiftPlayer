@@ -35,7 +35,7 @@ class PlaylistViewController: NSViewController {
         let realm = try! Realm()
         playlists = realm.objects(Playlist.self).map { playlist in return playlist }
         
-        outlineView.register(forDraggedTypes: [NSPasteboardTypeString])
+        outlineView.registerForDraggedTypes([NSPasteboard.PasteboardType.string])
     }
     
     @IBAction func addPlaylist(_ sender: AnyObject) {
@@ -48,7 +48,7 @@ class PlaylistViewController: NSViewController {
         playlists.append(playlist)
     }
     
-    func deletePlaylist(_ sender: AnyObject) {
+    @objc func deletePlaylist(_ sender: AnyObject) {
         let playlist = playlists[outlineView.clickedRow - 1]
         playlists.remove(at: outlineView.clickedRow - 1)
         outlineView.reloadData()
@@ -105,7 +105,7 @@ extension PlaylistViewController: NSOutlineViewDataSource {
         guard let playlist = item as? Playlist else { return false }
         
         let pb = info.draggingPasteboard()
-        let location = pb.string(forType: NSPasteboardTypeString)
+        let location = pb.string(forType: NSPasteboard.PasteboardType.string)
         
         let realm = try! Realm()
         if let location = location {
@@ -128,9 +128,9 @@ extension PlaylistViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         if isHeader(item as AnyObject) {
-            return outlineView.make(withIdentifier: "HeaderCell", owner: self)
+            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self)
         } else {
-            let view = outlineView.make(withIdentifier: "DataCell", owner: self) as? CustomTableCellView
+            let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as? CustomTableCellView
             if let playlist = item as? Playlist {
                 view?.textField?.stringValue = "\(playlist.name)"
                 view?.textField?.delegate = self

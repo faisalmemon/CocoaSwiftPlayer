@@ -11,7 +11,7 @@ import RealmSwift
 
 class SongListViewController: NSViewController {
     
-    dynamic var songs: [Song] = []
+    @objc dynamic var songs: [Song] = []
 
     @IBOutlet weak var tableView: NSTableView!
     
@@ -46,7 +46,7 @@ class SongListViewController: NSViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(SongListViewController.switchPlaylist(_:)), name: NSNotification.Name(rawValue: Constants.Notifications.SwitchPlaylist), object: nil)
     }
     
-    func doubleClick(_ sender: NSTableView) {
+    @objc func doubleClick(_ sender: NSTableView) {
         let manager = PlayerManager.sharedManager
         if tableView.selectedRow != -1 {
             manager.currentPlayList = songs
@@ -55,7 +55,7 @@ class SongListViewController: NSViewController {
         manager.play()
     }
     
-    func deleteSongs(_ sender: AnyObject) {
+    @objc func deleteSongs(_ sender: AnyObject) {
         let songsMutableArray = NSMutableArray(array: songs)
         let toBeDeletedSongs = songsMutableArray.objects(at: tableView.selectedRowIndexes) as? [Song]
         songsMutableArray.removeObjects(at: tableView.selectedRowIndexes)
@@ -74,7 +74,7 @@ class SongListViewController: NSViewController {
     
     // MARK: - Notification
     
-    func changeSong(_ notification: Notification) {
+    @objc func changeSong(_ notification: Notification) {
         guard let song = notification.userInfo?[Constants.NotificationUserInfos.Song] as? Song else { return }
         
         let index = songs.index { s in
@@ -87,7 +87,7 @@ class SongListViewController: NSViewController {
         }
     }
     
-    func switchPlaylist(_ notification: Notification) {
+    @objc func switchPlaylist(_ notification: Notification) {
         guard let playlist = notification.userInfo?[Constants.NotificationUserInfos.Playlist] as? Playlist else { return }
         
         songs = playlist.songs.map { song in return song }
@@ -102,7 +102,7 @@ extension SongListViewController: NSTableViewDataSource {
         let song = songs[row]
         
         let pbItem = NSPasteboardItem()
-        pbItem.setString(song.location, forType: NSPasteboardTypeString)
+        pbItem.setString(song.location, forType: NSPasteboard.PasteboardType.string)
         return pbItem
     }
     

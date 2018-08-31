@@ -191,7 +191,7 @@ class PlayerManager: NSObject, AVAudioPlayerDelegate {
     
     // MARK: - NSTimer
     
-    func updateProgress() {
+    @objc func updateProgress() {
         songProgress += 1
         statusItem?.button?.title = songProgressText
     }

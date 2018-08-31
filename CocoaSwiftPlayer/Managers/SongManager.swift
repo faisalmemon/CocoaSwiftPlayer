@@ -38,4 +38,12 @@ final class SongManager {
         }
     }
     
+    func importSongsIgnoringResultOrExceptions() {
+        do {
+            let _ = try importSongs()
+        } catch {
+        }
+        return
+    }
+    
 }

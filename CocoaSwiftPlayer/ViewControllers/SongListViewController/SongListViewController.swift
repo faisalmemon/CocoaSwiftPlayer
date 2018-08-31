@@ -23,12 +23,12 @@ class SongListViewController: NSViewController {
         let defaults = UserDefaults.standard
         if !defaults.bool(forKey: "APP_LAUNCHED") {
             let songManager = SongManager()
-            try! songManager.importSongs()
+            songManager.importSongsIgnoringResultOrExceptions()
             defaults.set(true, forKey: "APP_LAUNCHED")
         }
         
         let realm = try! Realm()
-        let result = realm.objects(Song)
+        let result = realm.objects(Song.self)
         songs = result.map { song in
             return song
         }

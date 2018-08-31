@@ -33,7 +33,7 @@ class PlaylistViewController: NSViewController {
         outlineView.menu = menu
         
         let realm = try! Realm()
-        playlists = realm.objects(Playlist).map { playlist in return playlist }
+        playlists = realm.objects(Playlist.self).map { playlist in return playlist }
         
         outlineView.register(forDraggedTypes: [NSPasteboardTypeString])
     }

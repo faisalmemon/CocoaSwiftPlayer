@@ -186,7 +186,7 @@ class PlayerManager: NSObject, AVAudioPlayerDelegate {
     
     fileprivate func loadAllSongs() {
         let realm = try! Realm()
-        playList = realm.objects(Song).map { song in return song}
+        playList = realm.objects(Song.self).map { song in return song}
     }
     
     // MARK: - NSTimer

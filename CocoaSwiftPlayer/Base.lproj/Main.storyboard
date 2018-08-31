@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <scenes>
@@ -657,6 +658,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="hJE-NH-Lqd"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="4dO-DQ-kvT" kind="relationship" relationship="window.shadowedContentViewController" id="aHW-OH-x6q"/>
@@ -677,8 +681,12 @@
                     <splitView key="splitView" dividerStyle="thin" id="lxA-D5-Y6n">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="delegate" destination="4dO-DQ-kvT" id="rqY-aS-TwK"/>
+                        </connections>
                     </splitView>
                     <connections>
+                        <outlet property="splitView" destination="lxA-D5-Y6n" id="G1N-yY-hGK"/>
                         <segue destination="e63-Lz-MPj" kind="relationship" relationship="splitItems" id="9AL-ev-uF6"/>
                         <segue destination="FL2-xc-fZF" kind="relationship" relationship="splitItems" id="ra3-3D-mrt"/>
                     </connections>
@@ -698,7 +706,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Tpz-V0-hic">
                                 <rect key="frame" x="0.0" y="0.0" width="280" height="120"/>
                                 <subviews>
-                                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="sQP-EC-ZEw">
+                                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="sQP-EC-ZEw">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="120"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PrY-ll-SzU">
@@ -933,7 +941,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="sgu-NT-nhe">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="70"/>
                                 <subviews>
-                                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="G4L-ya-Q6M">
+                                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="G4L-ya-Q6M">
                                         <rect key="frame" x="0.0" y="0.0" width="450" height="70"/>
                                     </visualEffectView>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="naK-cz-ZwQ" userLabel="LeftControl">
@@ -954,6 +962,7 @@
                                                             <constraint firstAttribute="height" constant="17" id="zDA-uu-GKL"/>
                                                         </constraints>
                                                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="FDL-lQ-BwV"/>
+                                                        <accessibility description="Volume"/>
                                                         <connections>
                                                             <action selector="slideVolume:" target="e63-Lz-MPj" id="VHm-ad-KmW"/>
                                                         </connections>
@@ -996,6 +1005,7 @@
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
+                                                        <accessibility description="Time Elapsed"/>
                                                     </textField>
                                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="aED-lw-NOF">
                                                         <rect key="frame" x="34" y="1" width="16" height="16"/>
@@ -1007,6 +1017,7 @@
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
+                                                        <accessibility description="Shuffle"/>
                                                         <connections>
                                                             <action selector="shuffle:" target="e63-Lz-MPj" id="QQZ-99-KvT"/>
                                                         </connections>
@@ -1021,6 +1032,7 @@
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
+                                                        <accessibility description="Repeat"/>
                                                         <connections>
                                                             <action selector="repeatPlaylist:" target="e63-Lz-MPj" id="mtw-uD-bJK"/>
                                                         </connections>
@@ -1058,6 +1070,7 @@
                                     </stackView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bp0-fo-OJn">
                                         <rect key="frame" x="228" y="24" width="106" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="eHL-du-Imz">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -1069,6 +1082,7 @@
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
+                                                <accessibility description="Rewind Song"/>
                                                 <connections>
                                                     <action selector="rewind:" target="e63-Lz-MPj" id="XJw-hh-BZ7"/>
                                                 </connections>
@@ -1083,6 +1097,7 @@
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
+                                                <accessibility description="Play/Pause Song"/>
                                                 <connections>
                                                     <action selector="play:" target="e63-Lz-MPj" id="ARv-3k-auo"/>
                                                 </connections>
@@ -1097,6 +1112,7 @@
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
+                                                <accessibility description="Next Song"/>
                                                 <connections>
                                                     <action selector="next:" target="e63-Lz-MPj" id="LX1-UO-cLK"/>
                                                 </connections>
@@ -1115,11 +1131,13 @@
                                     </stackView>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccf-d5-SZ7">
                                         <rect key="frame" x="226" y="5" width="110" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="mpR-zX-6vp">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <accessibility description="Song Name"/>
                                     </textField>
                                 </subviews>
                                 <constraints>

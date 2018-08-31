@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="0SQ-6B-RH9">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="0SQ-6B-RH9">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Songs-->
@@ -16,8 +17,12 @@
                     <splitView key="splitView" dividerStyle="thin" vertical="YES" id="Pto-Wr-Gfp">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="delegate" destination="0SQ-6B-RH9" id="TOy-Lc-pLR"/>
+                        </connections>
                     </splitView>
                     <connections>
+                        <outlet property="splitView" destination="Pto-Wr-Gfp" id="OLX-To-6I3"/>
                         <segue destination="lXM-oV-cdY" kind="relationship" relationship="splitItems" id="7l3-12-8Sh"/>
                         <segue destination="owZ-Rr-Udn" kind="relationship" relationship="splitItems" id="UZV-XQ-Btx"/>
                     </connections>
@@ -34,7 +39,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="200" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="Lus-SI-Veb">
+                            <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="Lus-SI-Veb">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="400"/>
                                 <subviews>
                                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhm-Hh-3eL">
@@ -50,7 +55,7 @@
                                                     <color key="backgroundColor" red="0.14509803921568626" green="0.14509803921568626" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
-                                                        <tableColumn width="195" minWidth="16" maxWidth="1000" id="jAx-IM-nPM">
+                                                        <tableColumn identifier="" width="195" minWidth="16" maxWidth="1000" id="jAx-IM-nPM">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -69,13 +74,24 @@
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qzR-HT-D2L">
                                                                             <rect key="frame" x="0.0" y="1" width="145" height="14"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Library" id="qOg-ex-jFR">
                                                                                 <font key="font" metaFont="smallSystemBold"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="accessibilityElement" value="NO"/>
+                                                                                </userDefinedRuntimeAttributes>
                                                                             </textFieldCell>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="accessibilityElement" value="NO"/>
+                                                                            </userDefinedRuntimeAttributes>
                                                                         </textField>
                                                                     </subviews>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="accessibilityElement" value="NO"/>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                    <accessibility description="Library of Playlists"/>
                                                                     <connections>
                                                                         <outlet property="textField" destination="qzR-HT-D2L" id="wYW-ed-mEr"/>
                                                                     </connections>
@@ -86,25 +102,35 @@
                                                                     <subviews>
                                                                         <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GQL-OL-jlu">
                                                                             <rect key="frame" x="3" y="0.0" width="17" height="17"/>
-                                                                            <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="Music" id="k9K-KZ-nx4"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="Music" id="k9K-KZ-nx4">
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="accessibilityElement" value="NO"/>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                            </imageCell>
                                                                         </imageView>
                                                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RWl-FC-FrI">
                                                                             <rect key="frame" x="25" y="0.0" width="87" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Songs" id="dHL-zJ-Lht">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
+                                                                            <accessibility description="Playlist name"/>
                                                                         </textField>
                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gxO-pd-pVd">
                                                                             <rect key="frame" x="116" y="0.0" width="22" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="(0)" id="X5J-a0-Nf5">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
+                                                                            <accessibility description="Songs in Playlist"/>
                                                                         </textField>
                                                                     </subviews>
+                                                                    <accessibility description="Playlist"/>
                                                                     <connections>
                                                                         <outlet property="imageView" destination="GQL-OL-jlu" id="d6c-iJ-KVA"/>
                                                                         <outlet property="songCount" destination="gxO-pd-pVd" id="sZI-zp-t8J"/>
@@ -145,6 +171,7 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <accessibility description="Add Playlist"/>
                                 <connections>
                                     <action selector="addPlaylist:" target="lXM-oV-cdY" id="Ke5-ya-xto"/>
                                 </connections>
@@ -176,23 +203,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="hVU-26-oaX">
+                            <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="hVU-26-oaX">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="400"/>
                                 <subviews>
                                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8v-bE-Zkf">
                                         <rect key="frame" x="0.0" y="0.0" width="450" height="400"/>
                                         <clipView key="contentView" id="b4V-3H-faz">
-                                            <rect key="frame" x="1" y="0.0" width="448" height="399"/>
+                                            <rect key="frame" x="1" y="0.0" width="448" height="384"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="88g-Sb-c8h" viewBased="YES" id="A0R-06-fH1">
-                                                    <rect key="frame" x="0.0" y="0.0" width="486" height="376"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="486" height="361"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
-                                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="zfz-8X-FWo">
+                                                        <tableColumn identifier="" width="116" minWidth="40" maxWidth="1000" id="zfz-8X-FWo">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="NAME">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -211,6 +238,7 @@
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AIY-50-IXd">
                                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Song Name" id="hbb-ee-7vP">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -226,8 +254,9 @@
                                                                     </connections>
                                                                 </tableCellView>
                                                             </prototypeCellViews>
+                                                            <accessibility description="Song names column"/>
                                                         </tableColumn>
-                                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="P7f-my-ocY">
+                                                        <tableColumn identifier="" width="116" minWidth="40" maxWidth="1000" id="P7f-my-ocY">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="LENGTH">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -246,6 +275,7 @@
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b1m-CH-qtQ">
                                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="2:35" id="Is6-E3-WdM">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -261,6 +291,7 @@
                                                                     </connections>
                                                                 </tableCellView>
                                                             </prototypeCellViews>
+                                                            <accessibility description="Song Lengths column"/>
                                                         </tableColumn>
                                                         <tableColumn identifier="" width="102" minWidth="10" maxWidth="3.4028234663852886e+38" id="SEe-NK-5OW">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="ARTIST">
@@ -281,6 +312,7 @@
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kr2-g5-yOY">
                                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Harry" id="pdE-8F-prx">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -296,6 +328,7 @@
                                                                     </connections>
                                                                 </tableCellView>
                                                             </prototypeCellViews>
+                                                            <accessibility description="Song Artists Column"/>
                                                         </tableColumn>
                                                         <tableColumn identifier="" width="140" minWidth="10" maxWidth="3.4028234663852886e+38" id="vOo-3U-rD2">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="PLAY">
@@ -316,6 +349,7 @@
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qpH-uc-Kb9">
                                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="5" id="4bL-XE-14M">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -331,6 +365,7 @@
                                                                     </connections>
                                                                 </tableCellView>
                                                             </prototypeCellViews>
+                                                            <accessibility description="Number of times played column"/>
                                                         </tableColumn>
                                                     </tableColumns>
                                                     <connections>
@@ -338,13 +373,12 @@
                                                     </connections>
                                                 </tableView>
                                             </subviews>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </clipView>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="450" id="wgs-Mh-aUi"/>
                                         </constraints>
                                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="rJ1-1e-BeA">
-                                            <rect key="frame" x="1" y="383" width="448" height="16"/>
+                                            <rect key="frame" x="1" y="384" width="448" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="kDs-Ra-T6M">
@@ -371,6 +405,7 @@
                             <constraint firstItem="hVU-26-oaX" firstAttribute="top" secondItem="592-xu-LQN" secondAttribute="top" id="Rhn-pN-ccD"/>
                             <constraint firstItem="hVU-26-oaX" firstAttribute="leading" secondItem="592-xu-LQN" secondAttribute="leading" id="Tx2-0n-bAk"/>
                         </constraints>
+                        <accessibility description="Song Descriptions"/>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="A0R-06-fH1" id="dkB-Cv-pbF"/>
